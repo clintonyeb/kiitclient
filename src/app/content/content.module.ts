@@ -10,6 +10,8 @@ import { EventComponent } from './event/event.component';
 import { AnnouncementComponent } from './announcement/announcement.component';
 import { ArticleComponent } from './article/article.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ContainerComponent } from './container/container.component';
+import { ContentEditorsComponent } from './content-editors/content-editors.component';
 
 
 @NgModule({
@@ -17,6 +19,18 @@ import { ProfileComponent } from './profile/profile.component';
     CommonModule,
     ContentRoutingModule
   ],
-  declarations: [IndexComponent, TweetComponent, TopNavComponent, SideNavComponent, EventComponent, AnnouncementComponent, ArticleComponent, ProfileComponent]
+  declarations: [
+    IndexComponent,
+    TweetComponent,
+    TopNavComponent,
+    SideNavComponent,
+    EventComponent,
+    AnnouncementComponent,
+    ArticleComponent,
+    ProfileComponent,
+    ContainerComponent,
+    ContentEditorsComponent
+  ],
+  bootstrap: [ContainerComponent]
 })
 export class ContentModule { }
