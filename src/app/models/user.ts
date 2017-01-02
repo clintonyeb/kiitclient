@@ -14,7 +14,7 @@ export class User {
        this.password =  obj.password || null;
        this.token =  obj.token || null;
        this.avatar =  obj.avatar || null;
-       this.enabled = obj.enabled || true,
+       this.enabled = obj.enabled || true;
        this.uniqueId = obj.uniqueId ? obj.uniqueId : obj.username;
        this.gender =  obj.gender;
   }
@@ -44,7 +44,8 @@ export class Profile {
   socialNetworks: Array<string>;
 
 
-  constructor(bio: string, contact: string, address: string, emailId: string, avatar: Avatar, user: User, socialNetworks: Array<string>) {
+  constructor(bio: string, contact: string, address: string, emailId: string, avatar: Avatar, user: User,
+              socialNetworks: Array<string>) {
     this.bio = bio;
     this.contact = contact;
     this.address = address;
