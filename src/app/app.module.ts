@@ -28,7 +28,6 @@ const routes: Routes = [
   ],
   imports: [
     BrowserModule,
-    FormsModule,
     HttpModule,
     ContentModule,
     AuthModule,

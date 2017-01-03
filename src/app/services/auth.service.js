@@ -34,10 +34,10 @@ var AuthService = (function () {
         });
     };
     AuthService.prototype.isLoggedIn = function () {
-        return !!this.getToken();
+        return !!this.getAuthUser();
     };
     AuthService.prototype.register = function () { };
-    AuthService.prototype.getToken = function () {
+    AuthService.prototype.getAuthUser = function () {
         return localStorage.getItem('token');
     };
     AuthService.prototype.setToken = function (username, token) {
@@ -50,7 +50,7 @@ var AuthService = (function () {
     };
     AuthService.prototype.getAuthenticatedHeader = function () {
         var token;
-        if (token = this.getToken()) {
+        if (token = this.getAuthUser()) {
             var header = new http_1.Headers({ 'Content-Type': 'application/json' });
             header.append('Accept', 'application.json');
             header.append('X-Auth-Token', "" + token);

@@ -50,7 +50,7 @@ module.exports = function(callback) {
   ;
 
   if(!oAuth) {
-    console.error('Must add oauth token for GitHub in tasks/config/admin/oauth.js');
+    console.error('Must add oauth access_token for GitHub in tasks/config/admin/oauth.js');
     return;
   }
 

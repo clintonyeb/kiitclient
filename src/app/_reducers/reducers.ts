@@ -5,12 +5,14 @@ import {VIEW_CONTENT, LOGIN, USER_DETAILS_FETCHED} from "../actions/user-actions
 import "rxjs/add/operator/map";
 import {Observable} from "rxjs";
 
-export function userReducer(state: User = null, action: Action) {
+export function userReducer(state: User = new User({}), action: Action) {
   switch (action.type) {
-    /*case LOGIN:
-      return new User(action.payload.username, action.payload.role, action.payload.token);
+    case LOGIN:
+      let user = Object.assign({}, state, action.payload);
+      console.log('reducer', user);
+      return user;
     case USER_DETAILS_FETCHED:
-      return Object.assign({}, state, action.payload);*/
+      return Object.assign({}, state, action.payload);
     default:
       return state;
   }
@@ -39,7 +41,7 @@ export function tweetReducer(state: Tweet[] = [], action: Action) {
 
 export function newContentNumberReducer(state: Observable<NewContentNumber> = null, action: Action): Observable<NewContentNumber> {
   switch (action.type) {
-   /* case VIEW_CONTENT:
+    case VIEW_CONTENT:
       let id = action.payload.id;
       switch (id) {
         case 'home':
@@ -67,7 +69,7 @@ export function newContentNumberReducer(state: Observable<NewContentNumber> = nu
           });
         default:
           throw new Error()
-      }*/
+      }
     default:
       return state;
   }
