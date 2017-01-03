@@ -12,7 +12,14 @@ export class Content {
   tags: Array<Tag>;
 
 
-  constructor(text: string, lastUpdated: string, flagged: boolean, avatars: Array<Avatar>, user: User, vote: Vote, contentType: string, tags: Array<Tag>) {
+  constructor(text: string,
+              lastUpdated: string,
+              flagged: boolean,
+              avatars: Array<Avatar>,
+              user: User,
+              vote: Vote,
+              contentType: string,
+              tags: Array<Tag>) {
     this.text = text;
     this.lastUpdated = lastUpdated;
     this.flagged = flagged;
@@ -53,7 +60,15 @@ export class Announcement extends Content{
   title: string;
 
 
-  constructor(text: string, lastUpdated: string, flagged: boolean, avatars: Array<Avatar>, user: User, vote: Vote, contentType: string, tags: Array<Tag>, title: string) {
+  constructor(text: string,
+              lastUpdated: string,
+              flagged: boolean,
+              avatars: Array<Avatar>,
+              user: User,
+              vote: Vote,
+              contentType: string,
+              tags: Array<Tag>,
+              title: string) {
     super(text, lastUpdated, flagged, avatars, user, vote, contentType, tags);
     this.title = title;
   }
@@ -63,7 +78,15 @@ export class Announcement extends Content{
 export class Article extends Content{
   title: string;
 
-  constructor(text: string, lastUpdated: string, flagged: boolean, avatars: Array<Avatar>, user: User, vote: Vote, contentType: string, tags: Array<Tag>, title: string) {
+  constructor(text: string,
+              lastUpdated: string,
+              flagged: boolean,
+              avatars: Array<Avatar>,
+              user: User,
+              vote: Vote,
+              contentType: string,
+              tags: Array<Tag>,
+              title: string) {
     super(text, lastUpdated, flagged, avatars, user, vote, contentType, tags);
     this.title = title;
   }
@@ -73,7 +96,17 @@ export class Event extends Content {
   venue: string;
   dateOfEvent: string;
 
-  constructor(text: string, lastUpdated: string, flagged: boolean, avatars: Array<Avatar>, user: User, vote: Vote, contentType: string, tags: Array<Tag>, title: string, venue: string, dateOfEvent: string) {
+  constructor(text: string,
+              lastUpdated: string,
+              flagged: boolean,
+              avatars: Array<Avatar>,
+              user: User,
+              vote: Vote,
+              contentType: string,
+              tags: Array<Tag>,
+              title: string,
+              venue: string,
+              dateOfEvent: string) {
     super(text, lastUpdated, flagged, avatars, user, vote, contentType, tags);
     this.title = title;
     this.venue = venue;
@@ -87,7 +120,14 @@ export class Song{
 
 export class Tweet extends Content{
 
-  constructor(text: string, lastUpdated: string, flagged: boolean, avatars: Array<Avatar>, user: User, vote: Vote, contentType: string, tags: Array<Tag>) {
+  constructor(text: string,
+              lastUpdated: string,
+              flagged: boolean,
+              avatars: Array<Avatar>,
+              user: User,
+              vote: Vote,
+              contentType: string,
+              tags: Array<Tag>) {
     super(text, lastUpdated, flagged, avatars, user, vote, contentType, tags);
   }
 }

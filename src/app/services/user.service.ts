@@ -1,21 +1,24 @@
 import { Injectable } from '@angular/core';
 import {Response, Http} from "@angular/http";
-import {User} from "../models/user";
+import {User, Avatar, Profile} from "../models/user";
+import {AppStore} from "../models/AppStore";
+import {Store} from "@ngrx/store";
+import {Observable} from "rxjs";
 
 export const BASE_URL = 'http://localhost:8080/api';
 
 @Injectable()
 export class UserService {
 
-  currentUser: User;
-  constructor (public http: Http) { }
+  user: Observable<User>;
+  avatar: Observable<Avatar>;
+  profile: Observable<Profile>;
 
-  getToken(username: string, password: string){
-      this.http.post(`${BASE_URL}/login`, JSON.stringify({username: username, password: password}))
-      .subscribe((data: Response) => {
-          data.json() as User
-      });
-      //map((response: Response) => response.json() as User)
+  constructor (public http: Http, private store: Store<AppStore>) {
+    this.user = store.select('user');
+    this.avatar = store.select('avatar');
+    this.profile = store.select('profile');
   }
+
 
 }
