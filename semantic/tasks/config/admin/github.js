@@ -19,7 +19,7 @@ var
 ;
 
 if(!oAuth) {
-  console.error('Must add oauth access_token for GitHub in tasks/config/admin/oauth.js');
+  console.error('Must add oauth token for GitHub in tasks/config/admin/oauth.js');
 }
 
 github = new githubAPI({
@@ -31,7 +31,7 @@ github = new githubAPI({
 
 github.authenticate({
   type: 'oauth',
-  token: oAuth.access_token
+  token: oAuth.token
 });
 
 module.exports = github;
