@@ -1,0 +1,15 @@
+"use strict";
+exports.LOGIN = 'login';
+exports.LOGOUT = 'logout';
+exports.REPORT_CONTENT = 'report_content';
+exports.REFRESH_TWEETS = 'refresh_tweets';
+exports.REFRESH_CONTENTS = 'refresh_contents';
+exports.LIKE_CONTENT = 'like_content';
+exports.UNLIKE_CONTENT = 'unlike_content';
+exports.DELETE_CONTENT = 'delete_content';
+exports.EDIT_CONTENT = 'edit_content';
+exports.SHARE_CONTENT = 'share_content';
+exports.ADD_NEW_TWEET = 'add_new_tweet';
+exports.ADD_NEW_CONTENT = 'add_new_content';
+exports.REPORT_USER = 'report_user';
+exports.VIEW_CONTENT = 'view_content';

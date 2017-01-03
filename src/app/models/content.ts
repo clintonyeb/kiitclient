@@ -11,26 +11,51 @@ export class Content {
   contentType: string;
   tags: Array<Tag>;
 
+  title: string; //announcement and Article
 
-  constructor(text: string,
-              lastUpdated: string,
-              flagged: boolean,
-              avatars: Array<Avatar>,
-              user: User,
-              vote: Vote,
-              contentType: string,
-              tags: Array<Tag>) {
-    this.text = text;
-    this.lastUpdated = lastUpdated;
-    this.flagged = flagged;
-    this.avatars = avatars;
-    this.user = user;
-    this.vote = vote;
-    this.contentType = contentType;
-    this.tags = tags;
+  venue: string; //event
+  dateOfEvent: string;  //event
+
+
+  constructor(obj?: any) {
+    this.text = obj.text;
+    this.lastUpdated = obj.lastUpdated;
+    this.flagged = obj.flagged;
+    this.avatars = obj.avatars;
+    this.user = obj.user;
+    this.vote = obj.vote;
+    this.contentType = obj.contentType;
+    this.tags = obj.tags;
+
+    this.title = obj.title || null;
+    this.venue = obj.event || null;
+    this.dateOfEvent = obj.dateOfEvent || null;
   }
 }
 
+
+export class Tweet {
+
+  public text: string;
+  public lastUpdated: string;
+  public flagged: boolean;
+  public avatars?: Array<Avatar>;
+  user: User;
+  vote: Vote;
+  contentType: string;
+  tags: Array<Tag>;
+
+  constructor(obj?: any) {
+    this.text = obj.text;
+    this.lastUpdated = obj.lastUpdated;
+    this.flagged = obj.flagged;
+    this.avatars = obj.avatars;
+    this.user = obj.user;
+    this.vote = obj.vote;
+    this.contentType = obj.contentType;
+    this.tags = obj.tags;
+  }
+}
 export class Vote {
   public upVotes: number;
   public downVotes: number;
@@ -56,78 +81,18 @@ export class Tag {
   }
 }
 
-export class Announcement extends Content{
-  title: string;
-
-
-  constructor(text: string,
-              lastUpdated: string,
-              flagged: boolean,
-              avatars: Array<Avatar>,
-              user: User,
-              vote: Vote,
-              contentType: string,
-              tags: Array<Tag>,
-              title: string) {
-    super(text, lastUpdated, flagged, avatars, user, vote, contentType, tags);
-    this.title = title;
-  }
-}
-
-
-export class Article extends Content{
-  title: string;
-
-  constructor(text: string,
-              lastUpdated: string,
-              flagged: boolean,
-              avatars: Array<Avatar>,
-              user: User,
-              vote: Vote,
-              contentType: string,
-              tags: Array<Tag>,
-              title: string) {
-    super(text, lastUpdated, flagged, avatars, user, vote, contentType, tags);
-    this.title = title;
-  }
-}
-export class Event extends Content {
-  title: string;
-  venue: string;
-  dateOfEvent: string;
-
-  constructor(text: string,
-              lastUpdated: string,
-              flagged: boolean,
-              avatars: Array<Avatar>,
-              user: User,
-              vote: Vote,
-              contentType: string,
-              tags: Array<Tag>,
-              title: string,
-              venue: string,
-              dateOfEvent: string) {
-    super(text, lastUpdated, flagged, avatars, user, vote, contentType, tags);
-    this.title = title;
-    this.venue = venue;
-    this.dateOfEvent = dateOfEvent;
-  }
-}
-
 export class Song{
 
 }
 
-export class Tweet extends Content{
+export class NewContentNumber {
+  announcement: number;
+  article: number;
+  event: number;
 
-  constructor(text: string,
-              lastUpdated: string,
-              flagged: boolean,
-              avatars: Array<Avatar>,
-              user: User,
-              vote: Vote,
-              contentType: string,
-              tags: Array<Tag>) {
-    super(text, lastUpdated, flagged, avatars, user, vote, contentType, tags);
+  constructor(obj?: any) {
+    this.announcement = obj.announcement || 0;
+    this.article = obj.article || 0;
+    this.event = obj.event || 0;
   }
 }

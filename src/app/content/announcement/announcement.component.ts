@@ -1,4 +1,7 @@
-import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy, Input} from "@angular/core";
+import {Content} from "../../models/content";
+import {Observable} from "rxjs";
+import {ContentService} from "../../services/content.service";
 
 @Component({
   selector: 'app-announcement',
@@ -8,7 +11,12 @@ import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 })
 export class AnnouncementComponent implements OnInit {
 
-  constructor() { }
+  contents: Observable<Array<Content>>;
+
+
+  constructor(public contentService: ContentService) {
+    this.contents = contentService.contents;
+  }
 
   ngOnInit() {
   }

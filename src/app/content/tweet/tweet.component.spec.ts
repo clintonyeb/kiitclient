@@ -1,9 +1,6 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
-
-import { TweetComponent } from './tweet.component';
+import {async, ComponentFixture, TestBed} from "@angular/core/testing";
+import {TweetComponent} from "./tweet.component";
 
 describe('TweetComponent', () => {
   let component: TweetComponent;

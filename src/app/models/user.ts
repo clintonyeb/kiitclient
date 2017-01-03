@@ -1,14 +1,26 @@
-export class User {
+export class AuthUser {
+  username: string;
+  role: string;
+  token: string;
+
+  constructor(username: string, role: string, token: string) {
+    this.username = username;
+    this.role = role;
+    this.token = token;
+  }
+}
+
+export class User extends AuthUser{
    id: number;
-   username: string;
    password: string;
-   token: string;
    avatar: Avatar;
    enabled: boolean;
    uniqueId: number;
    gender: string;
 
-  constructor( obj?: any){
+
+  constructor(username:string, role:string, token: string, obj?: any){
+      super(username, role, token);
        this.id = obj.id || '';
        this.username = obj.username || null;
        this.password =  obj.password || null;
@@ -19,6 +31,7 @@ export class User {
        this.gender =  obj.gender;
   }
 }
+
 
 export class Avatar {
 

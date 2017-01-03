@@ -1,30 +1,29 @@
-import { Injectable } from '@angular/core';
-import {Headers, Http, Response, RequestOptions, RequestOptionsArgs} from "@angular/http";
+import {Injectable} from "@angular/core";
+import {Headers, Http, RequestOptions, Response} from "@angular/http";
 import {Observable} from "rxjs";
 import {BASE_URL} from "./user.service";
-import {User} from "../models/user";
-import 'rxjs/add/operator/map'
+import {User, AuthUser} from "../models/user";
+import "rxjs/add/operator/map";
+import {AppStore} from "../models/AppStore";
+import {Store} from "@ngrx/store";
+import {LOGIN} from "../actions/user-actions";
+import {type} from "os";
 
 @Injectable()
 export class AuthService {
-
-  currentUser: User;
-
-  constructor(public http: Http) { }
+  constructor(public http: Http, public store: Store<AppStore>) { }
 
   login(username: string, password: string): Observable<boolean>{
      return this.http.post(`${BASE_URL}/login`,
       JSON.stringify({username: username, password: password}),
       this.getBasicHeaders())
-      .map((response) => {
+      .map((response: Response) => {
       console.log(response);
-        return response.json() as User
+        return response.json() as AuthUser
       })
-      .map((user) =>{
-        this.currentUser = user;
-        this.setToken(user.username, user.token);
-
-        if (this.currentUser){
+      .map((data: AuthUser) =>{
+       this.store.dispatch({type: LOGIN, payload: {data}});
+        if (data){
           console.log('authenticated success');
           return true;
         }
@@ -45,9 +44,9 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-  setToken(username: string, token: string){
-    localStorage.setItem('token', JSON.stringify({username: username, token: token}));
-  }
+ /* setToken(token: string){
+    localStorage.setItem('token', JSON.stringify({name: 'token', token: token}));
+  }*/
 
   getBasicHeaders(): RequestOptions{
     let header = new  Headers({'Content-Type': 'application/json'});

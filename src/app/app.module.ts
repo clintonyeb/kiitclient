@@ -1,9 +1,8 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {HttpModule, RequestOptions, Http} from '@angular/http';
-
-import {AppComponent} from './app.component';
+import {BrowserModule} from "@angular/platform-browser";
+import {NgModule} from "@angular/core";
+import {FormsModule} from "@angular/forms";
+import {HttpModule} from "@angular/http";
+import {AppComponent} from "./app.component";
 import {ContentModule} from "./content/content.module";
 import {AuthModule} from "./auth/auth.module";
 import {Routes, RouterModule} from "@angular/router";
@@ -12,10 +11,11 @@ import {AuthGuardService} from "./services/auth-guard.service";
 import {AuthService} from "./services/auth.service";
 import {StoreModule} from "@ngrx/store";
 import {
-  userReducer, avatarReducer, profileReducer, announcementReducer, articleReducer,
-  contentReducer, eventReducer, voteReducer, tweetReducer
-} from "./reducers/index";
-import {tagReducer} from "./reducers/content-reducer";
+  userReducer,
+  profileReducer,
+  contentReducer,
+  newContentNumberReducer, tweetReducer
+} from "./_reducers/reducers";
 import {ContentService} from "./services/content.service";
 
 
@@ -36,16 +36,10 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     StoreModule.provideStore({
       user: userReducer,
-      avatar: avatarReducer,
       profile: profileReducer,
-
       contents: contentReducer,
-      announcement: announcementReducer,
-      article: articleReducer,
-      event: eventReducer,
-      tweet: tweetReducer,
-      vote: voteReducer,
-      tag: tagReducer
+      tweets: tweetReducer,
+      newContentNumber: newContentNumberReducer
     })
   ],
   providers: [

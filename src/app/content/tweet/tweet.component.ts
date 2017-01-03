@@ -1,4 +1,6 @@
-import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy, Input} from "@angular/core";
+import {Tweet} from "../../models/content";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-tweet',
@@ -8,6 +10,7 @@ import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 })
 export class TweetComponent implements OnInit {
 
+  tweets: Observable<Array<Tweet>>;
   constructor() { }
 
   ngOnInit() {

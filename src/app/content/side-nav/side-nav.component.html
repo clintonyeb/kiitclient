@@ -2,8 +2,8 @@
   <div class="ui teal header">
     <img src="../../../assets/images/male-avatar-tiny.png" class="ui mini circular image">
     <div class="content">
-      Username
-      <div class="ui blue sub header">Roll Number</div>
+      {{user.username}}
+      <div class="ui blue sub header">{{user.uniqueId}}</div>
     </div>
   </div>
 </a>
@@ -13,27 +13,46 @@
     <i class="search icon"></i>
   </div>
 </div>
-<a class="item" routerLink="index" routerLinkActive="active teal">
+<a class="item"
+   routerLink="index"
+   routerLinkActive="active teal"
+   (click)="navItemClicked.emit('home')">
   Home
-  <div class="ui teal left pointing label">0</div>
+  <div class="ui label" [ngClass]="addColorEffect(total)">
+    {{total}}
+  </div>
 </a>
-<!--<a class="item">
-    Student's Section
-    <div class="ui label">0</div>
-</a>-->
-<a class="item"  routerLink="announcements" routerLinkActive="active teal">
+<a class="item"
+   routerLink="announcements"
+   routerLinkActive="active teal"
+   (click)="navItemClicked.emit('announcements')">
   Announcements
-  <div class="ui label">0</div>
+  <div class="ui label" [ngClass]="addColorEffect(announcement)">
+    {{announcement}}
+  </div>
 </a>
-<a class="item" routerLink="articles" routerLinkActive="active teal" >
+<a class="item"
+   routerLink="articles"
+   routerLinkActive="active teal"
+   (click)="navItemClicked.emit('articles')">
   Articles
-  <div class="ui label">0</div>
+  <div class="ui label" [ngClass]="addColorEffect(article)">
+    {{article}}
+  </div>
 </a>
-<a class="item" routerLink="events" routerLinkActive="active teal">
+<a class="item"
+   routerLink="events"
+   routerLinkActive="active teal"
+   (click)="navItemClicked.emit('events')">
   Events
-  <div class="ui label">0</div>
+  <div class="ui label" [ngClass]="addColorEffect(event)">
+    {{event}}
+  </div>
 </a>
-<a class="item" routerLink="profiles" routerLinkActive="active teal">
+<a class="item"
+   routerLink="profiles"
+   routerLinkActive="active teal"
+   (click)="navItemClicked.emit('profiles')">
   Your Profile
 </a>
 <a class="item">
