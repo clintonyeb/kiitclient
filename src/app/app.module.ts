@@ -7,7 +7,6 @@ import {ContentModule} from "./content/content.module";
 import {AuthModule} from "./auth/auth.module";
 import {Routes, RouterModule} from "@angular/router";
 import {UserService} from "./services/user.service";
-import {AuthGuardService} from "./services/auth-guard.service";
 import {AuthService} from "./services/auth.service";
 import {StoreModule} from "@ngrx/store";
 import {
@@ -45,7 +44,6 @@ const routes: Routes = [
   providers: [
     UserService,
     ContentService,
-    AuthGuardService,
     AuthService
   ],
   bootstrap: [AppComponent]

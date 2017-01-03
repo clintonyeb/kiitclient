@@ -7,13 +7,28 @@ import "rxjs/add/operator/map";
 import {AppStore} from "../models/AppStore";
 import {Store} from "@ngrx/store";
 import {LOGIN} from "../actions/user-actions";
-import {type} from "os";
+import {CanActivate, CanActivateChild, Router} from "@angular/router";
 
 @Injectable()
-export class AuthService {
-  constructor(public http: Http, public store: Store<AppStore>) { }
+export class AuthService implements CanActivate{
+
+  constructor(public http: Http,
+              public store: Store<AppStore>,
+              public router: Router) { }
+
+  canActivate() {
+    if (this.isLoggedIn()){
+      console.log('success route');
+      return true;
+    }else {console.log('failure route');
+
+      this.router.navigate(['/login']);
+      return false
+    }
+  }
 
   login(username: string, password: string): Observable<boolean>{
+    this.remoteToken();
      return this.http.post(`${BASE_URL}/login`,
       JSON.stringify({username: username, password: password}),
       this.getBasicHeaders())
@@ -41,12 +56,19 @@ export class AuthService {
   register(){}
 
   getToken(): string {
-    return localStorage.getItem('token');
+    let userAuth = JSON.parse(localStorage.getItem('token')) as AuthUser;
+    console.log(userAuth.token);
+    return userAuth.token;
   }
 
  /* setToken(token: string){
     localStorage.setItem('token', JSON.stringify({name: 'token', token: token}));
   }*/
+
+ remoteToken(): boolean{
+   localStorage.removeItem('token');
+   return true;
+ }
 
   getBasicHeaders(): RequestOptions{
     let header = new  Headers({'Content-Type': 'application/json'});

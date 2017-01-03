@@ -5,8 +5,8 @@ import {ArticleComponent} from "./article/article.component";
 import {AnnouncementComponent} from "./announcement/announcement.component";
 import {ProfileComponent} from "./profile/profile.component";
 import {ContainerComponent} from "./container/container.component";
+import {AuthService} from "../services/auth.service";
 import {EventComponent} from "./event/event.component";
-import {AuthGuardService} from "../services/auth-guard.service";
 
 const routes: Routes = [
   {
@@ -20,7 +20,7 @@ const routes: Routes = [
       {path: 'profiles', component: ProfileComponent},
       {path: '', redirectTo: '/home/index', pathMatch: 'full'},
       {path: '**', redirectTo: '/home/index', pathMatch: 'full'}
-    ], canActivate: [AuthGuardService], canActivateChild: [AuthGuardService]
+    ], canActivate: [AuthService]
   }
 ];
 

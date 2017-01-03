@@ -7,10 +7,10 @@ import {Observable} from "rxjs";
 
 export function userReducer(state: User = null, action: Action) {
   switch (action.type) {
-    case LOGIN:
+    /*case LOGIN:
       return new User(action.payload.username, action.payload.role, action.payload.token);
     case USER_DETAILS_FETCHED:
-      return Object.assign({}, state, action.payload);
+      return Object.assign({}, state, action.payload);*/
     default:
       return state;
   }
@@ -39,7 +39,7 @@ export function tweetReducer(state: Tweet[] = [], action: Action) {
 
 export function newContentNumberReducer(state: Observable<NewContentNumber> = null, action: Action): Observable<NewContentNumber> {
   switch (action.type) {
-    case VIEW_CONTENT:
+   /* case VIEW_CONTENT:
       let id = action.payload.id;
       switch (id) {
         case 'home':
@@ -67,7 +67,7 @@ export function newContentNumberReducer(state: Observable<NewContentNumber> = nu
           });
         default:
           throw new Error()
-      }
+      }*/
     default:
       return state;
   }
