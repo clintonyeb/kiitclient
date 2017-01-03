@@ -1,24 +1,37 @@
-export class User {
+export class AuthUser {
+  username: string;
+  role: string;
+  token: string;
+
+  constructor(username: string, role: string, token: string) {
+    this.username = username;
+    this.role = role;
+    this.token = token;
+  }
+}
+
+export class User extends AuthUser{
    id: number;
-   username: string;
    password: string;
-   token: string;
    avatar: Avatar;
    enabled: boolean;
    uniqueId: number;
    gender: string;
 
-  constructor( obj?: any){
+
+  constructor(username:string, role:string, token: string, obj?: any){
+      super(username, role, token);
        this.id = obj.id || '';
        this.username = obj.username || null;
        this.password =  obj.password || null;
        this.token =  obj.token || null;
        this.avatar =  obj.avatar || null;
-       this.enabled = obj.enabled || true,
+       this.enabled = obj.enabled || true;
        this.uniqueId = obj.uniqueId ? obj.uniqueId : obj.username;
        this.gender =  obj.gender;
   }
 }
+
 
 export class Avatar {
 
@@ -44,7 +57,8 @@ export class Profile {
   socialNetworks: Array<string>;
 
 
-  constructor(bio: string, contact: string, address: string, emailId: string, avatar: Avatar, user: User, socialNetworks: Array<string>) {
+  constructor(bio: string, contact: string, address: string, emailId: string, avatar: Avatar, user: User,
+              socialNetworks: Array<string>) {
     this.bio = bio;
     this.contact = contact;
     this.address = address;
