@@ -1,6 +1,7 @@
 export const LOGIN = 'login';
 export const LOGOUT = 'logout';
-export const USER_DETAILS_FETCHED = 'user_details_fetched';
+export const LOGGED_IN = 'logged_in';
+export const REGISTERED = 'registered';
 
 
 export const REPORT_CONTENT = 'report_content';

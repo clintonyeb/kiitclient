@@ -1,35 +1,136 @@
-<div class="ui center aligned container grid">
-  <div class="column">
-    <h2 class="ui teal image header">
-      <img src="../../images/custom/male-avatar-tiny.png" class="image">
-      <div class="content">
-        Log-in to your account
-      </div>
-    </h2>
-
-    <form class="ui large form">
-      <div class="ui stacked segment">
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="user icon"></i>
-            <input type="number" name="rollnumber" placeholder="Roll Number">
-          </div>
+<div class="ui fluid container my-centered">
+  <div class="ui grid">
+    <div class="column">
+      <div class="ui center aligned teal header">
+        <div class="content">
+          Register for an account here
         </div>
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="lock icon"></i>
-            <input type="password" name="password" placeholder="Password">
-          </div>
-        </div>
-        <div class="ui fluid large teal submit button">Login</div>
       </div>
 
-      <div class="ui error message"></div>
+      <form class="ui form" [formGroup]="formGroup"
+            (ngSubmit)="onFormSubmit(formGroup.value)"
+            [ngClass]="formClasses()">
 
-    </form>
+        <div class="ui teal piled segment">
+          <div class="two fields">
+            <div class="required field" [class.error]="username.invalid && username.touched">
+              <label for="username">Username</label>
+              <div class="ui left icon input">
+                <i class="user icon"></i>
+                <input type="number"
+                       id="username"
+                       placeholder="Roll number"
+                       formControlName="username">
+              </div>
+            </div>
 
-    <div class="ui message">
-      New to us? <a href="#">Sign Up</a>
+
+
+            <div class="field" [class.error]="nickname.invalid && nickname.touched">
+              <label for="nickname">Nickname(optional)</label>
+              <div class="ui left icon input">
+                <i class="spy icon"></i>
+                <input type="text"
+                       id="nickname"
+                       placeholder="nickname"
+                       formControlName="nickname">
+              </div>
+            </div>
+
+          </div>
+
+          <div class="two fields">
+            <div class="required field" [class.error]="password.invalid && password.touched">
+              <label for="password">Password</label>
+              <div class="ui left icon input">
+                <i class="lock icon"></i>
+                <input type="password"
+                       id="password"
+                       placeholder="Password"
+                       formControlName="password">
+              </div>
+            </div>
+
+
+            <div class="required field" [class.error]="confirmPassword.invalid && confirmPassword.touched">
+              <label for="repeat-password">Confirm Password</label>
+              <div class="ui left icon input">
+                <i class="help icon"></i>
+                <input type="password" id="repeat-password" placeholder="Confirm Password"
+                       formControlName="confirmPassword">
+              </div>
+            </div>
+          </div>
+
+          <div class="required inline field" [class.error]="gender.invalid && gender.touched">
+            <label for="gender">Gender</label>
+            <div class="ui selection dropdown">
+              <input id="gender" type="hidden" name="gender" formControlName="gender" >
+              <i class="dropdown icon"></i>
+              <div class="default text">Gender</div>
+              <div class="menu">
+                <div class="item" data-value="1" (click)="onGenderChange(1)">Male</div>
+                <div class="item" data-value="0" (click)="onGenderChange(0)">Female</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="required inline field" [class.error]="conditions.invalid && conditions.touched">
+            <input type="hidden" formControlName="conditions">
+            <div class="ui checkbox">
+              <input type="checkbox"
+                     #check
+                     tabindex="0"
+                     class="hidden"
+                     id="conditions"
+                     (change)="onCheckBoxChanged(check.checked)">
+              <label for="conditions">I agree to the terms and conditions</label>
+            </div>
+          </div>
+
+          <button type="submit" class="ui fluid large teal submit button" [disabled]="formGroup.invalid">Login</button>
+        </div>
+
+        <div *ngIf="username.touched && username.invalid" class="ui error message">
+          <ul class="list">
+            <li *ngIf="username.hasError('required')">Username is required</li>
+          </ul>
+
+        </div>
+        <div *ngIf="nickname.touched && nickname.invalid" class="ui error message">
+          <ul class="list">
+            <li *ngIf="nickname.hasError('minlength')" >Nickname must be at least 4 characters</li>
+          </ul>
+        </div>
+        <div *ngIf="password.touched && password.invalid" class="ui error message">
+          <ul class="list">
+            <li *ngIf="password.hasError('required')">Password is required</li>
+            <li *ngIf="password.hasError('minlength')">Password must be at least 4 characters</li>
+          </ul>
+        </div>
+        <div *ngIf="confirmPassword.touched && confirmPassword.invalid" class="ui error message">
+          <ul class="list">
+            <li *ngIf="confirmPassword.hasError('mismatchedPassword')">Password mismatch</li>
+          </ul>
+        </div>
+        <!--<div *ngIf="gender.touched && gender.invalid" class="ui error message">
+          <ul class="list">
+            <li *ngIf="gender.hasError('required')">Gender is required</li>
+          </ul>
+        </div>-->
+        <div *ngIf="conditions.touched && conditions.invalid" class="ui error message">
+          <ul class="list">
+            <li *ngIf="conditions.hasError('mustBeTrue')">Must agree to terms and conditions</li>
+          </ul>
+        </div>
+
+
+      </form>
+
+      <div class="ui message">
+        Already have an account? <a href="/login" (click)="onLoginClicked()">Log-in here</a>
+      </div>
     </div>
   </div>
+
 </div>

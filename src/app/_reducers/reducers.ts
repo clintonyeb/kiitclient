@@ -1,7 +1,7 @@
 import {Action} from "@ngrx/store";
 import {User, Profile} from "../models/user";
 import {NewContentNumber, Content, Tweet} from "../models/content";
-import {VIEW_CONTENT, LOGIN, USER_DETAILS_FETCHED} from "../actions/user-actions";
+import {VIEW_CONTENT, LOGIN, LOGGED_IN} from "../actions/user-actions";
 import "rxjs/add/operator/map";
 import {Observable} from "rxjs";
 
@@ -11,7 +11,7 @@ export function userReducer(state: User = new User({}), action: Action) {
       let user = Object.assign({}, state, action.payload);
       console.log('reducer', user);
       return user;
-    case USER_DETAILS_FETCHED:
+    case LOGGED_IN:
       return Object.assign({}, state, action.payload);
     default:
       return state;

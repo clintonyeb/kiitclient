@@ -33,7 +33,7 @@ var AuthService = (function () {
             }
         });
     };
-    AuthService.prototype.isLoggedIn = function () {
+    AuthService.prototype.hasAccessToken = function () {
         return !!this.getAuthUser();
     };
     AuthService.prototype.register = function () { };

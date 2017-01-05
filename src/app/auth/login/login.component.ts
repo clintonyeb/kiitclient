@@ -5,6 +5,7 @@ import {AppStore} from "../../models/AppStore";
 import {Store} from "@ngrx/store";
 import {Observable} from "rxjs";
 import {User} from "../../models/user";
+import {FormBuilder, FormGroup, FormControl, Validators, AbstractControl} from "@angular/forms";
 
 @Component({
   selector: 'app-login',
@@ -13,28 +14,43 @@ import {User} from "../../models/user";
 })
 export class LoginComponent implements OnInit {
 
-
-  constructor(public authService: AuthService,
-              public router: Router,
-              public store: Store<AppStore>) { }
-
   loading: boolean = false;
   success: boolean = false;
   errors: boolean = false;
   user: Observable<User>;
+  formGroup: FormGroup;
+  username: AbstractControl;
+  password: AbstractControl;
+
+  constructor(public authService: AuthService,
+              public router: Router,
+              public store: Store<AppStore>,
+              formBuilder: FormBuilder) {
+    this.formGroup = formBuilder.group({
+      'username': ['', Validators.required],
+      'password': ['', Validators.required]
+    });
+
+    this.username = this.formGroup.controls['username'];
+    this.password = this.formGroup.controls['password'];
+  }
+
 
   ngOnInit() {
+    this.authService.authenticate();
     this.user = this.store.select(store => store.user)
   }
 
-  onSubmit(f: any){
+  onSubmit(f: any) {
     this.loading = true;
     setTimeout(() => {
-      this.authService.login(f.rollnumber, f.password)
+      this.authService.login(f.username, f.password)
         .subscribe(data => {
+          this.success = true;
           this.loading = false;
           this.router.navigate(['/home/index'])
         }, err => {
+          this.errors = true;
           this.loading = false;
           console.error(err)
         });
@@ -42,12 +58,17 @@ export class LoginComponent implements OnInit {
 
   }
 
-  formClasses(){
+  formClasses() {
     return {
       loading: this.loading,
       success: this.success,
-      error: this.errors
+      warning: this.formGroup.invalid
     };
+  }
+
+  onSignUpClicked() {
+    this.router.navigate(['/register']);
+    return false;
   }
 
 }
