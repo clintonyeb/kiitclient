@@ -62,20 +62,20 @@
             </div>
           </div>
 
-          <div class="required inline field" [class.error]="gender.invalid && gender.touched">
+          <div class="required inline field" [class.error]="gender.invalid && gender.dirty">
             <label for="gender">Gender</label>
             <div class="ui selection dropdown">
               <input id="gender" type="hidden" name="gender" formControlName="gender" >
               <i class="dropdown icon"></i>
               <div class="default text">Gender</div>
               <div class="menu">
-                <div class="item" data-value="1" (click)="onGenderChange(1)">Male</div>
-                <div class="item" data-value="0" (click)="onGenderChange(0)">Female</div>
+                <div class="item" data-value="1" #male (click)="onGenderChange(1)">Male</div>
+                <div class="item" data-value="0" #female (click)="onGenderChange(0)">Female</div>
               </div>
             </div>
           </div>
 
-          <div class="required inline field" [class.error]="conditions.invalid && conditions.touched">
+          <div class="required inline field" [class.error]="conditions.invalid">
             <input type="hidden" formControlName="conditions">
             <div class="ui checkbox">
               <input type="checkbox"
@@ -106,6 +106,7 @@
           <ul class="list">
             <li *ngIf="password.hasError('required')">Password is required</li>
             <li *ngIf="password.hasError('minlength')">Password must be at least 4 characters</li>
+            <li *ngIf="password.hasError('sameUsernameAndPassword')">Password should not be same as Username</li>
           </ul>
         </div>
         <div *ngIf="confirmPassword.touched && confirmPassword.invalid" class="ui error message">
@@ -113,12 +114,12 @@
             <li *ngIf="confirmPassword.hasError('mismatchedPassword')">Password mismatch</li>
           </ul>
         </div>
-        <!--<div *ngIf="gender.touched && gender.invalid" class="ui error message">
+        <div *ngIf="gender.dirty && gender.invalid" class="ui error message">
           <ul class="list">
             <li *ngIf="gender.hasError('required')">Gender is required</li>
           </ul>
-        </div>-->
-        <div *ngIf="conditions.touched && conditions.invalid" class="ui error message">
+        </div>
+        <div *ngIf="(conditions.touched || conditions.dirty) && conditions.invalid" class="ui error message">
           <ul class="list">
             <li *ngIf="conditions.hasError('mustBeTrue')">Must agree to terms and conditions</li>
           </ul>

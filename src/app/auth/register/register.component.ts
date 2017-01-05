@@ -2,6 +2,8 @@ import {Component, OnInit} from "@angular/core";
 import {Router} from "@angular/router";
 import {FormGroup, AbstractControl, FormBuilder, Validator, Validators, FormControl} from "@angular/forms";
 import {UserService} from "../../services/user.service";
+import {AuthService} from "../../services/auth.service";
+import {User} from "../../models/user";
 
 @Component({
   selector: 'app-register',
@@ -20,7 +22,9 @@ export class RegisterComponent implements OnInit {
   loading: boolean;
   success: boolean;
 
-  constructor(public router: Router, public formBuilder: FormBuilder, public userService: UserService) {
+  constructor(public router: Router,
+              public formBuilder: FormBuilder,
+              public authService: AuthService) {
     this.formGroup = this.formBuilder.group({
       'username': ['', Validators.compose([Validators.required])],
       'nickname': ['', Validators.minLength(4)],
@@ -46,13 +50,17 @@ export class RegisterComponent implements OnInit {
     return (group: FormGroup) => {
       let password = group.controls[pass];
       let confirm = group.controls[conf];
+      let name = group.controls['username'];
+      if(password.value === name.value)
+        return password.setErrors({sameUsernameAndPassword: true});
       if(password.value !== confirm.value)
         return confirm.setErrors({mismatchedPassword: true});
     };
   }
 
   conditionsValidator(control: FormControl) {
-    return {mustBeTrue: !control.value};
+    if (control.value === false)
+      return {mustBeTrue: true};
   }
 
   onGenderChange(val: number){
@@ -64,8 +72,9 @@ export class RegisterComponent implements OnInit {
   }
 
   onFormSubmit(form: any) {
+    console.log(form);
     if(!form.nickname) form.nickname = form.username;
-    this.userService.registerNewUser(form);
+    this.authService.registerNewUser(form.username, form.nickname, form.password, form.gender).subscribe();
   }
 
   onLoginClicked() {

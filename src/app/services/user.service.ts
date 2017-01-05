@@ -20,17 +20,5 @@ export class UserService {
     this.profile = store.select(store => store.profile);
   }
 
-  registerNewUser(obj: any){
-    return this.http.post(`${BASE_URL}/users`,
-      JSON.stringify(obj),
-      getBasicHeaders())
-      .map((response: Response) => {
-        console.log(response);
-        /*return response.json() as AuthUser*/
-      })
-      /*.map((authUser: AuthUser) => {
-        /!*this.store.dispatch({type: LOGIN, payload: {authUser}});*!/
-        return !!authUser;
-      })*/;
-  }
+
 }

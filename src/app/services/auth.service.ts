@@ -54,6 +54,19 @@ export class AuthService implements CanActivate {
       });
   }
 
+  registerNewUser(username: string, nickname: string, password: string, gender: number){
+    return this.http.post(`${BASE_URL}/guests/users`,
+      JSON.stringify({username, nickname, password, gender}),
+      getBasicHeaders())
+      .map((response: Response) => {
+        console.log('response', response);
+        /*return response.json() as AuthUser*/
+      })
+      /*.map((authUser: AuthUser) => {
+       /!*this.store.dispatch({type: LOGIN, payload: {authUser}});*!/
+       return !!authUser;
+       })*/;
+  }
 
   hasAccessToken(): boolean {
     if (this.user)
