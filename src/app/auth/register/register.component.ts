@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit {
   loading: boolean;
   success: boolean;
 
-  constructor(public router: Router, public formBuilder: FormBuilder,public userService: UserService) {
+  constructor(public router: Router, public formBuilder: FormBuilder, public userService: UserService) {
     this.formGroup = this.formBuilder.group({
       'username': ['', Validators.compose([Validators.required])],
       'nickname': ['', Validators.minLength(4)],
@@ -51,7 +51,7 @@ export class RegisterComponent implements OnInit {
     };
   }
 
-   conditionsValidator(control: FormControl) {
+  conditionsValidator(control: FormControl) {
     return {mustBeTrue: !control.value};
   }
 
