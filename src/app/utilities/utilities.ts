@@ -3,6 +3,7 @@ import {RequestOptions, Headers} from "@angular/http";
 
 export function getAccessToken(): AuthUser {
   let item = localStorage.getItem('access_token');
+  console.log('token', item);
   return item ? JSON.parse(item)  as AuthUser : null;
 }
 

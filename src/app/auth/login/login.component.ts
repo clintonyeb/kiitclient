@@ -43,26 +43,26 @@ export class LoginComponent implements OnInit {
 
   onSubmit(f: any) {
     this.loading = true;
-    setTimeout(() => {
-      this.authService.login(f.username, f.password)
-        .subscribe(data => {
-          this.success = true;
-          this.loading = false;
-          this.router.navigate(['/home/index'])
-        }, err => {
-          this.errors = true;
-          this.loading = false;
-          console.error(err)
-        });
-    }, 2000);
+    this.authService.login(f.username, f.password)
+      .subscribe(data => {
+        this.success = true;
+        this.loading = false;
+        // this.router.navigate(['/home/index'])
+      }, err => {
+        this.errors = true;
+        this.loading = false;
+      });
+    /*setTimeout(() => {
 
+    }, 2000);*/
   }
 
   formClasses() {
     return {
       loading: this.loading,
       success: this.success,
-      warning: this.formGroup.invalid
+      warning: this.formGroup.invalid,
+      error: this.errors
     };
   }
 

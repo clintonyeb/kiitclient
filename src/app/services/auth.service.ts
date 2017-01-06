@@ -9,7 +9,7 @@ import {AppStore} from "../models/AppStore";
 import {Store} from "@ngrx/store";
 import {LOGIN} from "../actions/user-actions";
 import {CanActivate, Router} from "@angular/router";
-import {getAccessToken, getBasicHeaders, removeAccessToken} from "../utilities/utilities";
+import {getAccessToken, getBasicHeaders, removeAccessToken, setAccessToken} from "../utilities/utilities";
 
 @Injectable()
 export class AuthService implements CanActivate {
@@ -35,7 +35,8 @@ export class AuthService implements CanActivate {
     }
 
     if(val && this.router.url === '/login')
-      this.router.navigate(['/home/index']);
+      //this.router.navigate(['/home/index']);
+      console.log('navigating to homepage');
 
     return val;
   }
@@ -44,14 +45,21 @@ export class AuthService implements CanActivate {
     return this.http.post(`${BASE_URL}/login`,
       JSON.stringify({username: username, password: password}),
       getBasicHeaders())
-      .map((response: Response) => {
-        console.log(response);
-        return response.json() as AuthUser
+      .map((res: Response) => {
+        if (res) {
+          if (res.status === 200 || res.status === 201) {
+            let authUser = res.json() as AuthUser;
+            this.store.dispatch({type: LOGIN, payload: {authUser}});
+            setAccessToken(authUser);
+            console.log('saved token');
+            return !!authUser;
+          }
+        }
+      }).catch((error: any) => {
+        if (error.status < 400 ||  error.status ===500) {
+          return Observable.throw(new Error(error.status));
+        }
       })
-      .map((authUser: AuthUser) => {
-        this.store.dispatch({type: LOGIN, payload: {authUser}});
-        return !!authUser;
-      });
   }
 
   registerNewUser(username: string, nickname: string, password: string, gender: number){
@@ -60,6 +68,10 @@ export class AuthService implements CanActivate {
       getBasicHeaders())
       .map((response: Response) => {
         console.log('response', response);
+        let authUser = response.json() as AuthUser;
+        console.log('authUser', authUser);
+        let user = response.json() as User;
+        console.log( 'user', user);
         /*return response.json() as AuthUser*/
       })
       /*.map((authUser: AuthUser) => {
@@ -69,7 +81,7 @@ export class AuthService implements CanActivate {
   }
 
   hasAccessToken(): boolean {
-    if (this.user)
+    if (this.user && this.user.authUser.access_token)
       return !!this.user.authUser.access_token;
     else {
       let authUser = getAccessToken();

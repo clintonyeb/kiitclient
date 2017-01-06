@@ -9,7 +9,6 @@ export function userReducer(state: User = new User({}), action: Action) {
   switch (action.type) {
     case LOGIN:
       let user = Object.assign({}, state, action.payload);
-      console.log('reducer', user);
       return user;
     case LOGGED_IN:
       return Object.assign({}, state, action.payload);

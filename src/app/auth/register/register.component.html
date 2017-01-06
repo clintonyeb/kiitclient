@@ -13,34 +13,36 @@
 
         <div class="ui teal piled segment">
           <div class="two fields">
-            <div class="required field" [class.error]="username.invalid && username.touched">
+            <div class="required field" [class.error]="username.touched && username.invalid">
               <label for="username">Username</label>
               <div class="ui left icon input">
                 <i class="user icon"></i>
                 <input type="number"
                        id="username"
                        placeholder="Roll number"
-                       formControlName="username">
+                       formControlName="username"
+                (blur)="usernameBlured()">
               </div>
             </div>
 
 
 
-            <div class="field" [class.error]="nickname.invalid && nickname.touched">
+            <div class="field" [class.error]="nickname.touched && nickname.invalid">
               <label for="nickname">Nickname(optional)</label>
               <div class="ui left icon input">
                 <i class="spy icon"></i>
                 <input type="text"
                        id="nickname"
                        placeholder="nickname"
-                       formControlName="nickname">
+                       formControlName="nickname"
+                (blur)="nicknameBlured()">
               </div>
             </div>
 
           </div>
 
           <div class="two fields">
-            <div class="required field" [class.error]="password.invalid && password.touched">
+            <div class="required field" [class.error]="password.touched && password.invalid">
               <label for="password">Password</label>
               <div class="ui left icon input">
                 <i class="lock icon"></i>
@@ -52,7 +54,7 @@
             </div>
 
 
-            <div class="required field" [class.error]="confirmPassword.invalid && confirmPassword.touched">
+            <div class="required field" [class.error]="confirmPassword.touched && confirmPassword.invalid">
               <label for="repeat-password">Confirm Password</label>
               <div class="ui left icon input">
                 <i class="help icon"></i>
@@ -62,9 +64,9 @@
             </div>
           </div>
 
-          <div class="required inline field" [class.error]="gender.invalid && gender.dirty">
+          <div class="required inline field" [class.error]="gender.dirty && gender.invalid">
             <label for="gender">Gender</label>
-            <div class="ui selection dropdown">
+            <div class="ui selection dropdown" #dropdown>
               <input id="gender" type="hidden" name="gender" formControlName="gender" >
               <i class="dropdown icon"></i>
               <div class="default text">Gender</div>
@@ -94,12 +96,18 @@
         <div *ngIf="username.touched && username.invalid" class="ui error message">
           <ul class="list">
             <li *ngIf="username.hasError('required')">Username is required</li>
+            <li *ngIf="username.hasError('alreadyExist')">Username already exists, please sign in instead</li>
+            <li *ngIf="nickname.hasError('minlength')" >Username must be at least 4 characters</li>
+            <li *ngIf="nickname.hasError('maxlength')" >Username cannot be more than 15</li>
+            <li *ngIf="nickname.hasError('mustBeCharactersOnly')">Nickname should begin with a character</li>
           </ul>
 
         </div>
         <div *ngIf="nickname.touched && nickname.invalid" class="ui error message">
           <ul class="list">
             <li *ngIf="nickname.hasError('minlength')" >Nickname must be at least 4 characters</li>
+            <li *ngIf="nickname.hasError('alreadyExist')">Nickname already chosen</li>
+            <li *ngIf="nickname.hasError('maxlength')" >Nickname cannot be more than 10</li>
           </ul>
         </div>
         <div *ngIf="password.touched && password.invalid" class="ui error message">

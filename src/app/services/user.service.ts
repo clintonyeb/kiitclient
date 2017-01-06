@@ -20,5 +20,8 @@ export class UserService {
     this.profile = store.select(store => store.profile);
   }
 
+  searchUserName(term: string, type: string): Observable<Response>{
+    return this.http.get(`${BASE_URL}/guests/users/search?${type}=${term}&type=${type}`, getBasicHeaders())
+  }
 
 }
