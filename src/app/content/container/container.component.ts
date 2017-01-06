@@ -1,9 +1,4 @@
 import {Component, OnInit, ChangeDetectionStrategy} from "@angular/core";
-import {UserService} from "../../services/user.service";
-import {User} from "../../models/user";
-import {Observable} from "rxjs";
-import {Content, NewContentNumber, Tweet} from "../../models/content";
-import {ContentService} from "../../services/content.service";
 
 @Component({
   selector: 'app-container',

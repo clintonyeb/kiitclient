@@ -1,53 +1,53 @@
-<div class="my-centered">
-  <div class="ui center aligned container grid">
-    <div class="column">
-      <div class="ui teal image header">
-        <img src="../../../assets/images/male-avatar-tiny.png" class="image">
-        <div class="content">
+<div class="ui fluid container my-centered grid">
+  <div class="column">
+    <div class="ui top attached teal header">
+      <i class="lock icon"></i>
+      <div class="content">
+        KIIT University Social Network
+        <div class="sub header">
           Log-in to your account
         </div>
       </div>
+    </div>
 
-      <form class="ui large form" [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)"
-            [ngClass]="formClasses()">
+    <form class="ui large form" [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)"
+          [ngClass]="formClasses()">
 
-        <div class="ui success message">Login success</div>
-        <div class="ui error message">Invalid username and password</div>
+      <div *ngIf="success" class="ui success message">Login success</div>
+      <div *ngIf="errors" class="ui error message">Invalid username and password</div>
 
-        <div class="ui stacked teal segment">
-          <div class="field" [class.error]="username.invalid && username.touched">
-            <div class="ui left icon input">
-              <i class="user icon"></i>
-              <input type="text"
-                     id="username"
-                     placeholder="Roll number"
-                     [formControl]="username">
-              <small *ngIf="username.hasError('required') && username.touched"
+      <div class="ui stacked teal segment">
+        <div class="field" [class.error]="username.invalid && username.touched">
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+            <input type="text"
+                   id="username"
+                   placeholder="Roll number or nickname"
+                   [formControl]="username">
+            <small *ngIf="username.hasError('required') && username.touched"
                    class="ui left pointing red basic label">Cannot be empty
-              </small>
-            </div>
+            </small>
           </div>
-          <div class="field" [class.error]="password.invalid && password.touched">
-            <div class="ui left icon input">
-              <i class="lock icon"></i>
-              <input type="password"
-                     id="password"
-                     placeholder="Password"
-                     [formControl]="password">
-              <small *ngIf="password.hasError('required') && password.touched"
-                   class="ui left pointing red basic label">Cannot be empty
-              </small>
-            </div>
-          </div>
-          <button type="submit" class="ui fluid large teal submit button" [disabled]="formGroup.invalid">Login</button>
         </div>
-
-      </form>
-
-      <div class="ui message">
-        New to us? <a href="/signup" (click)="onSignUpClicked()"> Sign Up</a>
+        <div class="field" [class.error]="password.invalid && password.touched">
+          <div class="ui left icon input">
+            <i class="lock icon"></i>
+            <input type="password"
+                   id="password"
+                   placeholder="Password"
+                   [formControl]="password">
+            <small *ngIf="password.hasError('required') && password.touched"
+                   class="ui left pointing red basic label">Cannot be empty
+            </small>
+          </div>
+        </div>
+        <button type="submit" class="ui fluid large teal submit button" [disabled]="formGroup.invalid">Login</button>
       </div>
+
+    </form>
+
+    <div class="ui message">
+      New to us? <a href="/signup" (click)="onSignUpClicked()"> Sign Up</a>
     </div>
   </div>
-
 </div>

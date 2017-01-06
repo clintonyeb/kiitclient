@@ -59,14 +59,13 @@ export class Profile {
   socialNetworks: Array<string>;
 
 
-  constructor(bio: string, contact: string, address: string, emailId: string, avatar: Avatar, user: User,
-              socialNetworks: Array<string>) {
-    this.bio = bio;
-    this.contact = contact;
-    this.address = address;
-    this.emailId = emailId;
-    this.avatar = avatar;
-    this.user = user;
-    this.socialNetworks = socialNetworks;
+  constructor(obj?: any) {
+    this.bio = obj.bio || null;
+    this.contact = obj.contact || null;
+    this.address = obj.address || null;
+    this.emailId = obj.emailId || null;
+    this.avatar = obj.avatar || null;
+    this.user = obj.user || null;
+    this.socialNetworks = obj.socialNetworks || null;
   }
 }

@@ -8,13 +8,9 @@
 }
 
 .my-centered{
-  position: fixed;
+  position: absolute;
   width: 100%;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-25%, -50%);
-  -moz-transform: translate(-25%, -50%);
-  -ms-transform: translate(-25%, -50%);
-  -o-transform: translate(-25%, -50%);
-  transform: translate(-25%, -50%);
+  height: auto;
+ margin-top: 20px;
+  left: 25%;
 }

@@ -34,9 +34,9 @@ export class AuthService implements CanActivate {
         this.router.navigate(['/login']);
     }
 
-    if(val && this.router.url === '/login')
-      //this.router.navigate(['/home/index']);
-      console.log('navigating to homepage');
+    /*if(val && this.router.url === '/login')
+     //this.router.navigate(['/home/index']);
+     console.log('navigating to homepage');*/
 
     return val;
   }
@@ -46,6 +46,7 @@ export class AuthService implements CanActivate {
       JSON.stringify({username: username, password: password}),
       getBasicHeaders())
       .map((res: Response) => {
+        console.log(res);
         if (res) {
           if (res.status === 200 || res.status === 201) {
             let authUser = res.json() as AuthUser;
@@ -56,28 +57,22 @@ export class AuthService implements CanActivate {
           }
         }
       }).catch((error: any) => {
-        if (error.status < 400 ||  error.status ===500) {
+        if (error.status < 400 || error.status === 500) {
           return Observable.throw(new Error(error.status));
         }
       })
   }
 
-  registerNewUser(username: string, nickname: string, password: string, gender: number){
+  registerNewUser(username: string, nickname: string, password: string, gender: number) {
+    console.log( JSON.stringify({username, nickname, password, gender}));
     return this.http.post(`${BASE_URL}/guests/users`,
       JSON.stringify({username, nickname, password, gender}),
       getBasicHeaders())
       .map((response: Response) => {
-        console.log('response', response);
         let authUser = response.json() as AuthUser;
-        console.log('authUser', authUser);
         let user = response.json() as User;
-        console.log( 'user', user);
-        /*return response.json() as AuthUser*/
-      })
-      /*.map((authUser: AuthUser) => {
-       /!*this.store.dispatch({type: LOGIN, payload: {authUser}});*!/
-       return !!authUser;
-       })*/;
+        user.authUser = authUser;
+      });
   }
 
   hasAccessToken(): boolean {
@@ -85,7 +80,7 @@ export class AuthService implements CanActivate {
       return !!this.user.authUser.access_token;
     else {
       let authUser = getAccessToken();
-      if (authUser){
+      if (authUser) {
         this.store.dispatch({type: LOGIN, payload: {authUser}});
         return true;
       }
@@ -95,6 +90,7 @@ export class AuthService implements CanActivate {
 
   logOut() {
     removeAccessToken();
+    this.router.navigate(['/login']);
   }
 
 }

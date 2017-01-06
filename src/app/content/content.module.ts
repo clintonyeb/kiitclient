@@ -12,6 +12,12 @@ import {ProfileComponent} from "./profile/profile.component";
 import {ContainerComponent} from "./container/container.component";
 import {ContentEditorsComponent} from "./content-editors/content-editors.component";
 import {MomentModule} from "angular2-moment";
+import { EventContainerComponent } from './event-container/event-container.component';
+import { EventsContainerComponent } from './events-container/events-container.component';
+import { AnnouncementsContainerComponent } from './announcements-container/announcements-container.component';
+import { ArticlesContainerComponent } from './articles-container/articles-container.component';
+import { TweetsContainerComponent } from './tweets-container/tweets-container.component';
+import { WriterComponent } from './writer/writer.component';
 
 
 @NgModule({
@@ -30,7 +36,13 @@ import {MomentModule} from "angular2-moment";
     ArticleComponent,
     ProfileComponent,
     ContainerComponent,
-    ContentEditorsComponent
+    ContentEditorsComponent,
+    EventContainerComponent,
+    EventsContainerComponent,
+    AnnouncementsContainerComponent,
+    ArticlesContainerComponent,
+    TweetsContainerComponent,
+    WriterComponent
   ],
   bootstrap: [ContainerComponent]
 })

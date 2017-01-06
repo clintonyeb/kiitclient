@@ -1,15 +1,14 @@
 import {Action} from "@ngrx/store";
 import {User, Profile} from "../models/user";
 import {NewContentNumber, Content, Tweet} from "../models/content";
-import {VIEW_CONTENT, LOGIN, LOGGED_IN} from "../actions/user-actions";
+import {VIEW_CONTENT, LOGIN, LOGGED_IN, VIEW_PROFILE, ADD_CONTENT} from "../actions/user-actions";
 import "rxjs/add/operator/map";
 import {Observable} from "rxjs";
 
 export function userReducer(state: User = new User({}), action: Action) {
   switch (action.type) {
     case LOGIN:
-      let user = Object.assign({}, state, action.payload);
-      return user;
+      return Object.assign({}, state, action.payload);
     case LOGGED_IN:
       return Object.assign({}, state, action.payload);
     default:
@@ -17,8 +16,10 @@ export function userReducer(state: User = new User({}), action: Action) {
   }
 }
 
-export function profileReducer(state: Profile = null, action: Action) {
+export function profileReducer(state: Profile = new Profile({}), action: Action) {
   switch (action.type) {
+    case VIEW_PROFILE:
+      return Object.assign({}, state, action.payload);
     default:
       return state;
   }
@@ -26,6 +27,10 @@ export function profileReducer(state: Profile = null, action: Action) {
 
 export function contentReducer(state: Content[] = [], action: Action) {
   switch (action.type) {
+
+    case ADD_CONTENT:
+      return [...state, action.payload];
+
     default:
       return state;
   }

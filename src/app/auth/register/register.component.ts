@@ -4,6 +4,7 @@ import {FormGroup, AbstractControl, FormBuilder, Validators, FormControl} from "
 import {UserService} from "../../services/user.service";
 import {AuthService} from "../../services/auth.service";
 import {Response} from "@angular/http";
+
 declare const $: any;
 
 @Component({
@@ -12,6 +13,7 @@ declare const $: any;
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements AfterViewInit{
+
   formGroup: FormGroup;
   username: AbstractControl;
   nickname: AbstractControl;
@@ -21,21 +23,39 @@ export class RegisterComponent implements AfterViewInit{
   conditions: AbstractControl;
   loading: boolean;
   success: boolean;
+  error: boolean;
   @ViewChild("dropdown") dropdown: ElementRef;
-
-//TODO: Add maxsize 20 to nickname and password and also 4..15 for username
 
   constructor(public router: Router,
               public formBuilder: FormBuilder,
               public authService: AuthService,
               public userService: UserService) {
+
     this.formGroup = this.formBuilder.group({
-      'username': ['', Validators.compose([Validators.required, Validators.maxLength(15), Validators.minLength(4)])],
-      'nickname': ['', Validators.compose([Validators.minLength(4), this.nickNameValidator, Validators.maxLength(10)])],
-      'password': ['', Validators.compose([Validators.required, Validators.minLength(4)])],
+
+      'username': ['', Validators.compose([
+        Validators.required,
+        Validators.maxLength(15),
+        Validators.minLength(4)]
+      )],
+
+      'nickname': ['', Validators.compose([
+        Validators.minLength(4),
+        Validators.pattern(/^[A-Za-z][A-Za-z0-9]+$/),
+        Validators.maxLength(10)]
+      )],
+
+      'password': ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(4)]
+      )],
+
       'confirmPassword': [''],
+
       'gender': ['', Validators.required],
-      'conditions': [false, Validators.compose([this.conditionsValidator])]
+
+      'conditions': [true]
+
     }, {validator: this.passwordValidator('password', 'confirmPassword')});
 
     this.username = this.formGroup.controls['username'];
@@ -44,24 +64,28 @@ export class RegisterComponent implements AfterViewInit{
     this.confirmPassword = this.formGroup.controls['confirmPassword'];
     this.gender = this.formGroup.controls['gender'];
     this.conditions = this.formGroup.controls['conditions'];
+
+    this.conditions.setErrors(this.conditions.value ? null : {mustBeTrue: true} )
   }
 
-  usernameBlured(){
+  usernameBlurred(){
     if(this.username.value && this.username.valid){
       this.userService.searchUserName(this.username.value, 'username').subscribe((val: Response) => {
         if (val.status === 200)
           this.username.setErrors({alreadyExist: true});
+        else if(this.username.hasError('alreadyExist')) this.username.setErrors(null);
       }, (err => {
 
       }))
     }
   }
 
-  nicknameBlured(){
+  nicknameBlurred(){
     if(this.nickname.value && this.nickname.valid){
       this.userService.searchUserName(this.nickname.value, 'nickname').subscribe((val: Response) => {
         if (val.status === 200)
           this.nickname.setErrors({alreadyExist: true});
+        else if(this.nickname.hasError('alreadyExist')) this.nickname.setErrors(null);
       }, (err => {
 
       }))
@@ -73,29 +97,21 @@ export class RegisterComponent implements AfterViewInit{
       .dropdown();
   }
 
-
-  nickNameValidator(control: FormControl){
-    if(control.touched &&  !control.value.match('/^[a-zA-Z]/'))
-      return {mustBeCharactersOnly: true};
-  }
-
+//TODO: Implement sameusernameandpassword validation
 
   passwordValidator(pass: string, conf: string) {
     return (group: FormGroup) => {
+
       let password = group.controls[pass];
       let confirm = group.controls[conf];
+
       /*let name = group.controls[user];
       if ((!password.value) && (password.value == name.value))
         return password.setErrors({sameUsernameAndPassword: true});*/
-      if (password.value !== confirm.value)
-        return confirm.setErrors({mismatchedPassword: true});
+
+      return (password.value !== confirm.value) ? confirm.setErrors({mismatchedPassword: true}) : null;
     };
-  }
 
-
-  conditionsValidator(control: FormControl) {
-    if (control.touched && control.value === false)
-      return {mustBeTrue: true};
   }
 
   onGenderChange(val: number) {
@@ -104,12 +120,24 @@ export class RegisterComponent implements AfterViewInit{
 
   onCheckBoxChanged() {
     this.conditions.setValue(!this.conditions.value);
+    this.conditions.setErrors(this.conditions.value ? null : {mustBeTrue: true} )
   }
 
   onFormSubmit(form: any) {
-    console.log(form);
+    this.loading = true;
     if (!form.nickname) form.nickname = form.username;
-    this.authService.registerNewUser(form.username, form.nickname, form.password, form.gender).subscribe();
+    this.authService.registerNewUser(form.username, form.nickname, form.password, form.gender).subscribe( () => {
+      console.log('no error');
+      this.loading = false;
+      this.error = false;
+      this.success = true;
+      this.router.navigate(['/login']);
+    }, (err) => {
+      console.log('error', err);
+      this.loading = false;
+      this.error  = true;
+      this.success = false;
+    });
   }
 
   onLoginClicked() {
@@ -125,8 +153,13 @@ export class RegisterComponent implements AfterViewInit{
     };
   }
 
-  onChange(value){
 
+  //TODO: Implement field classes to show help on hover and nice colors
+  fieldClasses(control: FormControl){
+    return {
+      error: control.touched && control.invalid,
+      teal : control.touched && control.valid
+    }
   }
 
 }

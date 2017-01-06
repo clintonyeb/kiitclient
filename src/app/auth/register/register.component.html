@@ -1,9 +1,13 @@
 <div class="ui fluid container my-centered">
   <div class="ui grid">
     <div class="column">
-      <div class="ui center aligned teal header">
+      <div class="ui top attached teal header">
+        <i class="lock icon"></i>
         <div class="content">
-          Register for an account here
+          KIIT University Social Network
+          <div class="sub header">
+            Register for an account here
+          </div>
         </div>
       </div>
 
@@ -11,9 +15,13 @@
             (ngSubmit)="onFormSubmit(formGroup.value)"
             [ngClass]="formClasses()">
 
+        <div *ngIf="success" class="ui success message">Registration success</div>
+        <div *ngIf="error" class="ui error message">Errors occurred during registration</div>
+
         <div class="ui teal piled segment">
           <div class="two fields">
-            <div class="required field" [class.error]="username.touched && username.invalid">
+
+            <div class="required field" [ngClass]="fieldClasses(this.username)">
               <label for="username">Username</label>
               <div class="ui left icon input">
                 <i class="user icon"></i>
@@ -21,13 +29,13 @@
                        id="username"
                        placeholder="Roll number"
                        formControlName="username"
-                (blur)="usernameBlured()">
+                (blur)="usernameBlurred()">
               </div>
             </div>
 
 
 
-            <div class="field" [class.error]="nickname.touched && nickname.invalid">
+            <div class="field" [ngClass]="fieldClasses(nickname)">
               <label for="nickname">Nickname(optional)</label>
               <div class="ui left icon input">
                 <i class="spy icon"></i>
@@ -35,14 +43,14 @@
                        id="nickname"
                        placeholder="nickname"
                        formControlName="nickname"
-                (blur)="nicknameBlured()">
+                (blur)="nicknameBlurred()">
               </div>
             </div>
 
           </div>
 
           <div class="two fields">
-            <div class="required field" [class.error]="password.touched && password.invalid">
+            <div class="required field" [ngClass]="fieldClasses(password)">
               <label for="password">Password</label>
               <div class="ui left icon input">
                 <i class="lock icon"></i>
@@ -54,7 +62,7 @@
             </div>
 
 
-            <div class="required field" [class.error]="confirmPassword.touched && confirmPassword.invalid">
+            <div class="required field" [ngClass]="fieldClasses(confirmPassword)">
               <label for="repeat-password">Confirm Password</label>
               <div class="ui left icon input">
                 <i class="help icon"></i>
@@ -64,20 +72,20 @@
             </div>
           </div>
 
-          <div class="required inline field" [class.error]="gender.dirty && gender.invalid">
+          <div class="required inline field" [ngClass]="fieldClasses(gender)">
             <label for="gender">Gender</label>
             <div class="ui selection dropdown" #dropdown>
-              <input id="gender" type="hidden" name="gender" formControlName="gender" >
+              <input id="gender" type="hidden" name="gender" (change)="onGenderChange(gen.value)" formControlName="gender" #gen>
               <i class="dropdown icon"></i>
               <div class="default text">Gender</div>
               <div class="menu">
-                <div class="item" data-value="1" #male (click)="onGenderChange(1)">Male</div>
-                <div class="item" data-value="0" #female (click)="onGenderChange(0)">Female</div>
+                <div class="item" data-value="1" (select)="onGenderChange(gen.value)" (click)="onGenderChange(1)">Male</div>
+                <div class="item" data-value="0" (click)="onGenderChange(gen.value)">Female</div>
               </div>
             </div>
           </div>
 
-          <div class="required inline field" [class.error]="conditions.invalid">
+          <div class="required inline field" [ngClass]="fieldClasses(conditions)">
             <input type="hidden" formControlName="conditions">
             <div class="ui checkbox">
               <input type="checkbox"
@@ -85,55 +93,57 @@
                      tabindex="0"
                      class="hidden"
                      id="conditions"
-                     (change)="onCheckBoxChanged(check.checked)">
-              <label for="conditions">I agree to the terms and conditions</label>
+                     checked
+                     (change)="onCheckBoxChanged(check.checked)"
+                     [ngClass]="fieldClasses(conditions)">
+              <label for="conditions" [ngClass]="fieldClasses(conditions)">I agree to the terms and conditions</label>
             </div>
           </div>
 
           <button type="submit" class="ui fluid large teal submit button" [disabled]="formGroup.invalid">Login</button>
         </div>
 
-        <div *ngIf="username.touched && username.invalid" class="ui error message">
-          <ul class="list">
-            <li *ngIf="username.hasError('required')">Username is required</li>
-            <li *ngIf="username.hasError('alreadyExist')">Username already exists, please sign in instead</li>
-            <li *ngIf="nickname.hasError('minlength')" >Username must be at least 4 characters</li>
-            <li *ngIf="nickname.hasError('maxlength')" >Username cannot be more than 15</li>
-            <li *ngIf="nickname.hasError('mustBeCharactersOnly')">Nickname should begin with a character</li>
-          </ul>
-
+        <div *ngIf="formGroup.touched && formGroup.invalid" class="ui error message">
+          <div *ngIf="username.touched && username.invalid">
+            <ul class="list">
+              <li *ngIf="username.hasError('required')">Username is required</li>
+              <li *ngIf="username.hasError('alreadyExist')">Username already exists, please sign in instead</li>
+              <li *ngIf="nickname.hasError('minlength')" >Username must be at least 4 characters</li>
+              <li *ngIf="nickname.hasError('maxlength')" >Username cannot be more than 15</li>
+              <li *ngIf="nickname.hasError('mustBeCharactersOnly')">Nickname should begin with a character</li>
+            </ul>
+          </div>
+          <div *ngIf="nickname.touched && nickname.invalid">
+            <ul class="list">
+              <li *ngIf="nickname.hasError('minlength')" >Nickname must be at least 4 characters</li>
+              <li *ngIf="nickname.hasError('alreadyExist')">Nickname already chosen</li>
+              <li *ngIf="nickname.hasError('maxlength')" >Nickname cannot be more than 10 characters</li>
+              <li *ngIf="nickname.hasError('pattern')">Nickname should start with a letter</li>
+            </ul>
+          </div>
+          <div *ngIf="password.touched && password.invalid">
+            <ul class="list">
+              <li *ngIf="password.hasError('required')">Password is required</li>
+              <li *ngIf="password.hasError('minlength')">Password must be at least 4 characters</li>
+              <!--<li *ngIf="password.hasError('sameUsernameAndPassword')">Password should not be same as Username</li>-->
+            </ul>
+          </div>
+          <div *ngIf="confirmPassword.touched && confirmPassword.invalid">
+            <ul class="list">
+              <li *ngIf="confirmPassword.hasError('mismatchedPassword')">Password mismatch</li>
+            </ul>
+          </div>
+          <div *ngIf="gender.dirty && gender.invalid">
+            <ul class="list">
+              <li *ngIf="gender.hasError('required')">Gender is required</li>
+            </ul>
+          </div>
+          <div *ngIf="conditions.touched && conditions.invalid">
+            <ul class="list">
+              <li *ngIf="conditions.hasError('mustBeTrue')">Must agree to terms and conditions</li>
+            </ul>
+          </div>
         </div>
-        <div *ngIf="nickname.touched && nickname.invalid" class="ui error message">
-          <ul class="list">
-            <li *ngIf="nickname.hasError('minlength')" >Nickname must be at least 4 characters</li>
-            <li *ngIf="nickname.hasError('alreadyExist')">Nickname already chosen</li>
-            <li *ngIf="nickname.hasError('maxlength')" >Nickname cannot be more than 10</li>
-          </ul>
-        </div>
-        <div *ngIf="password.touched && password.invalid" class="ui error message">
-          <ul class="list">
-            <li *ngIf="password.hasError('required')">Password is required</li>
-            <li *ngIf="password.hasError('minlength')">Password must be at least 4 characters</li>
-            <li *ngIf="password.hasError('sameUsernameAndPassword')">Password should not be same as Username</li>
-          </ul>
-        </div>
-        <div *ngIf="confirmPassword.touched && confirmPassword.invalid" class="ui error message">
-          <ul class="list">
-            <li *ngIf="confirmPassword.hasError('mismatchedPassword')">Password mismatch</li>
-          </ul>
-        </div>
-        <div *ngIf="gender.dirty && gender.invalid" class="ui error message">
-          <ul class="list">
-            <li *ngIf="gender.hasError('required')">Gender is required</li>
-          </ul>
-        </div>
-        <div *ngIf="(conditions.touched || conditions.dirty) && conditions.invalid" class="ui error message">
-          <ul class="list">
-            <li *ngIf="conditions.hasError('mustBeTrue')">Must agree to terms and conditions</li>
-          </ul>
-        </div>
-
-
       </form>
 
       <div class="ui message">
