@@ -19,20 +19,27 @@ export class SideNavComponent implements OnInit {
   article: number;
   event: number;
   total: number;
+  @Output() onNavItemSelected;
 
   constructor(public userService: UserService, public contentService: ContentService) {
     this.newContentNumber = contentService.newContentNumber;
-    this.user = userService.user;
+    //this.user = userService.user;
   }
 
   ngOnInit() {
-    this.newContentNumber.subscribe(content => {
+    /*this.newContentNumber.subscribe(content => {
       this.announcement = content.announcement;
       this.article = content.article;
       this.event = content.event;
       this.total = this.announcement + this.article + this.event;
-    })
+    })*/
 
+    this.onNavItemSelected = new EventEmitter<string>();
+  }
+
+  navItemClicked(name: string){
+    this.onNavItemSelected.emit(name);
+    return false;
   }
 
   addColorEffect(num: number) {

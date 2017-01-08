@@ -607,7 +607,7 @@ $.fn.state.settings = {
   // namespace for events
   namespace      : 'state',
 
-  // debug data includes performance
+  // debug userData includes performance
   performance    : true,
 
   // callback occurs on state change

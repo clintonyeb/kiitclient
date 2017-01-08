@@ -16,7 +16,7 @@
 <a class="item"
    routerLink="index"
    routerLinkActive="active teal"
-   (click)="navItemClicked.emit('home')">
+   (click)="navItemClicked('home')">
   Home
   <div class="ui label" [ngClass]="addColorEffect(total)">
     {{total}}
@@ -25,7 +25,7 @@
 <a class="item"
    routerLink="announcements"
    routerLinkActive="active teal"
-   (click)="navItemClicked.emit('announcements')">
+   (click)="navItemClicked('announcements')">
   Announcements
   <div class="ui label" [ngClass]="addColorEffect(announcement)">
     {{announcement}}
@@ -34,7 +34,7 @@
 <a class="item"
    routerLink="articles"
    routerLinkActive="active teal"
-   (click)="navItemClicked.emit('articles')">
+   (click)="navItemClicked('articles')">
   Articles
   <div class="ui label" [ngClass]="addColorEffect(article)">
     {{article}}
@@ -43,7 +43,7 @@
 <a class="item"
    routerLink="events"
    routerLinkActive="active teal"
-   (click)="navItemClicked.emit('events')">
+   (click)="navItemClicked('events')">
   Events
   <div class="ui label" [ngClass]="addColorEffect(event)">
     {{event}}
@@ -52,7 +52,7 @@
 <a class="item"
    routerLink="profiles"
    routerLinkActive="active teal"
-   (click)="navItemClicked.emit('profiles')">
+   (click)="navItemClicked('profiles')">
   Your Profile
 </a>
 <a class="item">

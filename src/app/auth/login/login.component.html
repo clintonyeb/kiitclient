@@ -13,8 +13,8 @@
     <form class="ui large form" [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)"
           [ngClass]="formClasses()">
 
-      <div *ngIf="success" class="ui success message">Login success</div>
-      <div *ngIf="errors" class="ui error message">Invalid username and password</div>
+      <div *ngIf="userData.success" class="ui success message">Login success</div>
+      <div *ngIf="userData.errors" class="ui error message">Invalid username and password</div>
 
       <div class="ui stacked teal segment">
         <div class="field" [class.error]="username.invalid && username.touched">

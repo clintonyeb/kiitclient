@@ -1,4 +1,5 @@
 import {Component, OnInit, ChangeDetectionStrategy} from "@angular/core";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-top-nav',
@@ -8,9 +9,12 @@ import {Component, OnInit, ChangeDetectionStrategy} from "@angular/core";
 })
 export class TopNavComponent implements OnInit {
 
-  constructor() { }
+  constructor(public authService: AuthService) { }
 
   ngOnInit() {
   }
 
+  onLogOutClicked(){
+    this.authService.logOutAndRemoveToken()
+  }
 }

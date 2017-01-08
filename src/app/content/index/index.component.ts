@@ -13,4 +13,8 @@ export class IndexComponent implements OnInit {
   ngOnInit() {
   }
 
+  EditorKeyUpHandler(value){
+    console.log(value);
+  }
+
 }

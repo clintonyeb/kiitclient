@@ -4,9 +4,10 @@ import {LoginComponent} from "./login/login.component";
 import {RegisterComponent} from "./register/register.component";
 import {Routes, RouterModule} from "@angular/router";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {LoginContainerComponent} from "../container/login-container/login-container.component";
 
 const routes: Routes = [
-  {path: 'login', component: LoginComponent},
+  {path: 'login', component: LoginContainerComponent},
   {path: 'register', component: RegisterComponent}
 ];
 
@@ -17,7 +18,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [LoginComponent, RegisterComponent],
+  declarations: [LoginComponent, RegisterComponent,
+    LoginContainerComponent],
   bootstrap: [LoginComponent]
 })
 export class AuthModule { }

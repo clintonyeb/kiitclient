@@ -1,6 +1,5 @@
 import {BrowserModule} from "@angular/platform-browser";
 import {NgModule} from "@angular/core";
-import {FormsModule} from "@angular/forms";
 import {HttpModule} from "@angular/http";
 import {AppComponent} from "./app.component";
 import {ContentModule} from "./content/content.module";
@@ -9,13 +8,9 @@ import {Routes, RouterModule} from "@angular/router";
 import {UserService} from "./services/user.service";
 import {AuthService} from "./services/auth.service";
 import {StoreModule} from "@ngrx/store";
-import {
-  userReducer,
-  profileReducer,
-  contentReducer,
-  newContentNumberReducer, tweetReducer
-} from "./_reducers/reducers";
+import {userReducer} from "./_reducers/user";
 import {ContentService} from "./services/content.service";
+import { LoginContainerComponent } from './container/login-container/login-container.component';
 
 
 const routes: Routes = [
@@ -33,11 +28,11 @@ const routes: Routes = [
     AuthModule,
     RouterModule.forRoot(routes),
     StoreModule.provideStore({
-      user: userReducer,
+      user: userReducer/*,
       profile: profileReducer,
       contents: contentReducer,
       tweets: tweetReducer,
-      newContentNumber: newContentNumberReducer
+      newContentNumber: newContentNumberReducer*/
     })
   ],
   providers: [

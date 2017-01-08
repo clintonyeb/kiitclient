@@ -31,7 +31,7 @@ function inArray(needle, haystack) {
 }
 
 /**
- * Parses a file for metadata and stores result in data object.
+ * Parses a file for metadata and stores result in userData object.
  * @param {File} file - object provided by map-stream.
  * @param {function(?,File)} - callback provided by map-stream to
  * reply when done.

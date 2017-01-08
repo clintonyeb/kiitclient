@@ -108,9 +108,9 @@
             <ul class="list">
               <li *ngIf="username.hasError('required')">Username is required</li>
               <li *ngIf="username.hasError('alreadyExist')">Username already exists, please sign in instead</li>
-              <li *ngIf="nickname.hasError('minlength')" >Username must be at least 4 characters</li>
-              <li *ngIf="nickname.hasError('maxlength')" >Username cannot be more than 15</li>
-              <li *ngIf="nickname.hasError('mustBeCharactersOnly')">Nickname should begin with a character</li>
+              <li *ngIf="username.hasError('minlength')" >Username must be at least 4 characters</li>
+              <li *ngIf="username.hasError('maxlength')" >Username cannot be more than 15</li>
+              <li *ngIf="username.hasError('notARollnumber')">This is not a recognized rollnumber</li>
             </ul>
           </div>
           <div *ngIf="nickname.touched && nickname.invalid">

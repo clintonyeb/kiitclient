@@ -410,7 +410,7 @@ $.fn.progress = function(parameters) {
                 .css('width', value + '%')
               ;
               $module
-                .attr('data-percent', parseInt(value, 10))
+                .attr('userData-percent', parseInt(value, 10))
               ;
             }
           },

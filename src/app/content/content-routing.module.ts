@@ -21,8 +21,7 @@ const routes: Routes = [
       {path: 'articles', component: ArticlesContainerComponent},
       {path: 'events', component: EventsContainerComponent},
       {path: 'profiles', component: ProfileComponent},
-      {path: '', redirectTo: '/home/index', pathMatch: 'full'},
-      {path: '**', redirectTo: '/home/index', pathMatch: 'full'}
+      {path: '', redirectTo: '/home/index', pathMatch: 'full'}
     ], canActivate: [AuthService]
   }
 ];

@@ -873,7 +873,7 @@ $.fn.shape.settings = {
   // fudge factor in pixels when swapping from 2d to 3d (can be useful to correct rounding errors)
   jitter     : 0,
 
-  // performance data output
+  // performance userData output
   performance: true,
 
   // event namespace

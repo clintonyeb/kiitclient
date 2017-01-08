@@ -1,20 +1,30 @@
-import {AuthUser} from "../models/user";
 import {RequestOptions, Headers} from "@angular/http";
+import {Observable} from "rxjs";
+import {AuthUser} from "../models/authuser";
 
-export function getAccessToken(): AuthUser {
+export function getAccessToken(): Observable<AuthUser> {
   let item = localStorage.getItem('access_token');
-  console.log('token', item);
-  return item ? JSON.parse(item)  as AuthUser : null;
+  if (item){
+    return Observable.from(item)
+      .filter(val => val !== null)
+      .map(val => {
+        return JSON.parse(val) as AuthUser;
+      })
+  }
+  else return null;
+
 }
 
-export function setAccessToken(authUser: AuthUser): boolean{
+export function setAccessToken(authUser: AuthUser): Observable<boolean>{
   localStorage.setItem('access_token', JSON.stringify(authUser));
-  return true;
+  return Observable.of(true)
 }
 
-export function  removeAccessToken(): boolean{
-  localStorage.removeItem('access_token');
-  return true;
+export function  removeAccessToken(): Observable<boolean>{
+  return getAccessToken().filter(x => x !== null).map(x => {
+    localStorage.removeItem('access_token');
+    return true;
+  });
 }
 
 export function getBasicHeaders(): RequestOptions{
@@ -24,13 +34,15 @@ export function getBasicHeaders(): RequestOptions{
 }
 
 export function getAuthenticatedHeader(){
-  let authUser = getAccessToken();
-  if (authUser && authUser.access_token){
-    let header = new  Headers({'Content-Type': 'application/json'});
-    header.append('Accept', 'application.json');
-    header.append('X-Auth-Token', `${authUser.access_token}`);
-    return new RequestOptions({headers: header});
-  }
+  return getAccessToken().map(auth => {
+    if (auth && auth.access_token){
+      let header = new  Headers({'Content-Type': 'application/json'});
+      header.append('Accept', 'application.json');
+      header.append('X-Auth-Token', `${auth.access_token}`);
+      return new RequestOptions({headers: header});
+    }
+  });
+
 }
 
 

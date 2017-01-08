@@ -433,17 +433,17 @@ $.api = $.fn.api = function(parameters) {
 
             if(hasOtherData) {
               if(canSerialize) {
-                module.debug('Extending existing data with form data', data, formData);
+                module.debug('Extending existing userData with form userData', data, formData);
                 data = $.extend(true, {}, data, formData);
               }
               else {
                 module.error(error.missingSerialize);
-                module.debug('Cant extend data. Replacing data with form data', data, formData);
+                module.debug('Cant extend userData. Replacing userData with form userData', data, formData);
                 data = formData;
               }
             }
             else {
-              module.debug('Adding form data', formData);
+              module.debug('Adding form userData', formData);
               data = formData;
             }
             return data;
@@ -1069,10 +1069,10 @@ $.api.settings = {
   // base URL to apply to all endpoints
   base              : '',
 
-  // data that will
+  // userData that will
   urlData           : {},
 
-  // whether to add default data to url data
+  // whether to add default userData to url userData
   defaultData          : true,
 
   // whether to serialize closest form
@@ -1131,7 +1131,7 @@ $.api.settings = {
     legacyParameters  : 'You are using legacy API success callback names',
     method            : 'The method you called is not defined',
     missingAction     : 'API action used but no url was defined',
-    missingSerialize  : 'jquery-serialize-object is required to add form data to an existing data object',
+    missingSerialize  : 'jquery-serialize-object is required to add form userData to an existing userData object',
     missingURL        : 'No URL specified for api event',
     noReturnedValue   : 'The beforeSend callback must return a settings object, beforeSend ignored.',
     noStorage         : 'Caching responses locally requires session storage',

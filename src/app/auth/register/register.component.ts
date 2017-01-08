@@ -4,6 +4,12 @@ import {FormGroup, AbstractControl, FormBuilder, Validators, FormControl} from "
 import {UserService} from "../../services/user.service";
 import {AuthService} from "../../services/auth.service";
 import {Response} from "@angular/http";
+import {Duplicate} from "../../models/authuser";
+import {Observable, Subscription} from "rxjs";
+import {UserState} from "../../_reducers/user";
+import {AppStore} from "../../models/appstore";
+import {Store} from "@ngrx/store";
+import {UserActionTypes} from "../../actions/user";
 
 declare const $: any;
 
@@ -12,7 +18,7 @@ declare const $: any;
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements AfterViewInit{
+export class RegisterComponent implements AfterViewInit {
 
   formGroup: FormGroup;
   username: AbstractControl;
@@ -21,15 +27,15 @@ export class RegisterComponent implements AfterViewInit{
   confirmPassword: AbstractControl;
   gender: AbstractControl;
   conditions: AbstractControl;
-  loading: boolean;
-  success: boolean;
-  error: boolean;
   @ViewChild("dropdown") dropdown: ElementRef;
+  userState: UserState;
+  userSubscription: Subscription;
 
   constructor(public router: Router,
               public formBuilder: FormBuilder,
               public authService: AuthService,
-              public userService: UserService) {
+              public userService: UserService,
+              public store: Store<AppStore>) {
 
     this.formGroup = this.formBuilder.group({
 
@@ -65,27 +71,40 @@ export class RegisterComponent implements AfterViewInit{
     this.gender = this.formGroup.controls['gender'];
     this.conditions = this.formGroup.controls['conditions'];
 
-    this.conditions.setErrors(this.conditions.value ? null : {mustBeTrue: true} )
+    this.conditions.setErrors(this.conditions.value ? null : {mustBeTrue: true});
+
+    this.userSubscription = store.select(store => store.userState).subscribe(data => this.userState = data);
   }
 
-  usernameBlurred(){
-    if(this.username.value && this.username.valid){
-      this.userService.searchUserName(this.username.value, 'username').subscribe((val: Response) => {
-        if (val.status === 200)
+  usernameBlurred() {
+    if (this.username.value && this.username.valid) {
+      this.userService.searchForDuplicate(this.username.value, 'username').subscribe((val: Response) => {
+        let obj = val.json() as Duplicate;
+        if (obj.status === true) {
+          if (this.nickname.hasError('alreadyExist')) this.nickname.setErrors(null);
+          return null;
+        }
+
+        else if (obj.status === false && obj.message === "EXISTS")
           this.username.setErrors({alreadyExist: true});
-        else if(this.username.hasError('alreadyExist')) this.username.setErrors(null);
+        else
+          this.username.setErrors({notARollnumber: true});
       }, (err => {
 
       }))
     }
   }
 
-  nicknameBlurred(){
-    if(this.nickname.value && this.nickname.valid){
-      this.userService.searchUserName(this.nickname.value, 'nickname').subscribe((val: Response) => {
-        if (val.status === 200)
+  nicknameBlurred() {
+    if (this.nickname.value && this.nickname.valid) {
+      this.userService.searchForDuplicate(this.nickname.value, 'nickname').subscribe((val: Response) => {
+        let obj = val.json() as Duplicate;
+        if (obj.status === true) {
+          if (this.nickname.hasError('alreadyExist')) this.nickname.setErrors(null);
+          return null;
+        }
+        else
           this.nickname.setErrors({alreadyExist: true});
-        else if(this.nickname.hasError('alreadyExist')) this.nickname.setErrors(null);
       }, (err => {
 
       }))
@@ -106,8 +125,8 @@ export class RegisterComponent implements AfterViewInit{
       let confirm = group.controls[conf];
 
       /*let name = group.controls[user];
-      if ((!password.value) && (password.value == name.value))
-        return password.setErrors({sameUsernameAndPassword: true});*/
+       if ((!password.value) && (password.value == name.value))
+       return password.setErrors({sameUsernameAndPassword: true});*/
 
       return (password.value !== confirm.value) ? confirm.setErrors({mismatchedPassword: true}) : null;
     };
@@ -120,23 +139,14 @@ export class RegisterComponent implements AfterViewInit{
 
   onCheckBoxChanged() {
     this.conditions.setValue(!this.conditions.value);
-    this.conditions.setErrors(this.conditions.value ? null : {mustBeTrue: true} )
+    this.conditions.setErrors(this.conditions.value ? null : {mustBeTrue: true})
   }
 
   onFormSubmit(form: any) {
-    this.loading = true;
+    this.store.dispatch({type: UserActionTypes.REGISTER, payload: form});
     if (!form.nickname) form.nickname = form.username;
-    this.authService.registerNewUser(form.username, form.nickname, form.password, form.gender).subscribe( () => {
-      console.log('no error');
-      this.loading = false;
-      this.error = false;
-      this.success = true;
+    this.authService.registerNewUser(form.username, form.nickname, form.password, form.gender).subscribe(() => {
       this.router.navigate(['/login']);
-    }, (err) => {
-      console.log('error', err);
-      this.loading = false;
-      this.error  = true;
-      this.success = false;
     });
   }
 
@@ -147,18 +157,18 @@ export class RegisterComponent implements AfterViewInit{
 
   formClasses() {
     return {
-      loading: this.loading,
-      success: this.success,
+      loading: this.userState.loading,
+      success: this.userState.success,
       error: this.formGroup.invalid
     };
   }
 
 
   //TODO: Implement field classes to show help on hover and nice colors
-  fieldClasses(control: FormControl){
+  fieldClasses(control: FormControl) {
     return {
       error: control.touched && control.invalid,
-      teal : control.touched && control.valid
+      teal: control.touched && control.valid
     }
   }
 
